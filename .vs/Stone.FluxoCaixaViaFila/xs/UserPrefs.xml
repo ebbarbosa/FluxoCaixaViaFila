@@ -1,0 +1,36 @@
+﻿<Properties StartupConfiguration="{C3F34B90-2616-4E49-B133-D45859B42CF5}|Default">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Stone.FluxoCaixaViaFila.Infra.MQ/Class1.cs">
+    <Files>
+      <File FileName="Stone.FluxoCaixaViaFila.Domain/IFluxoCaixaConsumer.cs" Line="1" Column="1" />
+      <File FileName="Stone.FluxoCaixaViaFila.Domain/FluxoCaixaConsumer.cs" Line="1" Column="1" />
+      <File FileName="Stone.FluxoCaixaViaFila.Tests/FluxoCaixaConsumerTestFixture.cs" Line="1" Column="1" />
+      <File FileName="Stone.FluxoCaixaViaFila.Common/ContainerHelper.cs" Line="7" Column="33" />
+      <File FileName="Stone.FluxoCaixaViaFila.Infra.MQ/Class1.cs" Line="5" Column="24" />
+    </Files>
+    <Pads>
+      <Pad Id="MonoDevelop.UnitTesting.TestPad">
+        <State name="__root__">
+          <Node name="Stone.FluxoCaixaViaFila" expanded="True" selected="True">
+            <Node name="Stone.FluxoCaixaViaFila.Tests" expanded="True">
+              <Node name="Stone" expanded="True">
+                <Node name="FluxoCaixaViaFila" expanded="True">
+                  <Node name="Tests" expanded="True" />
+                </Node>
+              </Node>
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore>
+      <Breakpoint file="/Users/ebarbosa/dev/csharp/Stone.FluxoCaixaViaFila/Stone.FluxoCaixaViaFila.Tests/TestFixtureBase.cs" relfile="Stone.FluxoCaixaViaFila.Tests/TestFixtureBase.cs" line="13" column="42" />
+      <Breakpoint file="/Users/ebarbosa/dev/csharp/Stone.FluxoCaixaViaFila/Stone.FluxoCaixaViaFila.Domain/FluxoCaixaConsumer.cs" relfile="Stone.FluxoCaixaViaFila.Domain/FluxoCaixaConsumer.cs" line="47" column="1" />
+    </BreakpointStore>
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MultiItemStartupConfigurations />
+  <MonoDevelop.Ide.ItemProperties.Stone.FluxoCaixaViaFila PreferredExecutionTarget="MonoDevelop.Default" />
+</Properties>

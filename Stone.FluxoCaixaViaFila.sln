@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Stone.FluxoCaixaViaFila.Inf
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Stone.FluxoCaixaViaFila.Tests", "Stone.FluxoCaixaViaFila.Tests\Stone.FluxoCaixaViaFila.Tests.csproj", "{0EAEEBC1-1E39-4803-B000-9DC5C63A1155}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Stone.FluxoCaixaViaFila.Common", "Stone.FluxoCaixaViaFila.Common\Stone.FluxoCaixaViaFila.Common.csproj", "{F7F52BE4-5778-4113-9A0A-6AFCB503A737}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -31,5 +33,9 @@ Global
 		{0EAEEBC1-1E39-4803-B000-9DC5C63A1155}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0EAEEBC1-1E39-4803-B000-9DC5C63A1155}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0EAEEBC1-1E39-4803-B000-9DC5C63A1155}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F7F52BE4-5778-4113-9A0A-6AFCB503A737}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F7F52BE4-5778-4113-9A0A-6AFCB503A737}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F7F52BE4-5778-4113-9A0A-6AFCB503A737}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F7F52BE4-5778-4113-9A0A-6AFCB503A737}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

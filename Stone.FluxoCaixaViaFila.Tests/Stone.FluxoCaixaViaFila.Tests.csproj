@@ -11,6 +11,13 @@
     <PackageReference Include="xunit" Version="2.3.1" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.3.1" />
     <DotNetCliToolReference Include="dotnet-xunit" Version="2.3.1" />
+    <PackageReference Include="SimpleInjector" Version="4.2.1" />
+    <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
+    <PackageReference Include="xunit.runner.console" Version="2.3.1" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Stone.FluxoCaixaViaFila.Common\Stone.FluxoCaixaViaFila.Common.csproj" />
+    <ProjectReference Include="..\Stone.FluxoCaixaViaFila.Domain\Stone.FluxoCaixaViaFila.Domain.csproj" />
+  </ItemGroup>
 </Project>

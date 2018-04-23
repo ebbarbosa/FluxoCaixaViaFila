@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="SimpleInjector" Version="4.2.1" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Stone.FluxoCaixaViaFila.Domain\Stone.FluxoCaixaViaFila.Domain.csproj" />
+    <ProjectReference Include="..\Stone.FluxoCaixaViaFila.Infra.MQ\Stone.FluxoCaixaViaFila.Infra.MQ.csproj" />
+  </ItemGroup>
+</Project>
