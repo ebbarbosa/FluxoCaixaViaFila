@@ -9,6 +9,9 @@ using Stone.FluxoCaixaViaFila.Domain;
 
 namespace Stone.FluxoCaixaViaFila.WebApi.Controllers
 {
+    /// <summary>
+    /// Lancamento controller.
+    /// </summary>
     [Route("api/lancamento")]
     public class LancamentoController : Controller
     {
@@ -19,11 +22,17 @@ namespace Stone.FluxoCaixaViaFila.WebApi.Controllers
             this.lancamentoRouter = lancamentoRouter;
         }
 
-        // POST api/values
+        /// <summary>
+        /// Envia o lancamento para ser validado e processado por sua devida fila.
+        /// </summary>
+        /// <returns>The post.</returns>
+        /// <param name="lancamento">Lancamento.</param>
+        // POST api/lancamento
         [HttpPost]
-        public void Post([FromBody]Lancamento lancamento)
+        public JsonResult Post([FromBody]Lancamento lancamento)
         {
             lancamentoRouter.RotearPraFila(lancamento);
+            return Json(lancamento);
         }
 
     }

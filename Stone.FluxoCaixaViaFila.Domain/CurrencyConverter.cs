@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Globalization;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 
 namespace Stone.FluxoCaixaViaFila.Domain
 {
@@ -35,5 +36,4 @@ namespace Stone.FluxoCaixaViaFila.Domain
         }
 
     }
-
 }
