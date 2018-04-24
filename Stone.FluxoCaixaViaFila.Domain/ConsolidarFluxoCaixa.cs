@@ -1,10 +1,11 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using System.Linq;
 
 namespace Stone.FluxoCaixaViaFila.Domain
 {
-    public class FluxoCaixaConsumer : IFluxoCaixaConsumer
+    public class ConsolidarFluxoCaixa : IConsolidarFluxoCaixa
     {
         public FluxoCaixa ConsolidarMes(IEnumerable<Lancamento> lancamentos)
         {
@@ -67,5 +68,13 @@ namespace Stone.FluxoCaixaViaFila.Domain
             return new FluxoCaixa(consolidado);
         }
 
+    }
+
+    public class LancamentoSpecification : ILancamentoSpecification
+    {
+        public void Validate(Lancamento lancamento)
+        {
+            Contract.Assert(lancamento.DataLancamento >= DateTime.Today);
+        }
     }
 }

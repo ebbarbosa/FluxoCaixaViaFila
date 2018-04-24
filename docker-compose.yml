@@ -1,0 +1,15 @@
+version: '3.4'
+
+services:
+  stone.fluxocaixaviafila.webapi:
+    image: stonefluxocaixaviafila.webapi
+    build:
+      context: .
+      dockerfile: Stone.FluxoCaixaViaFila.WebApi/Dockerfile
+
+  stone.fluxocaixaviafila.webapi:
+    image: stonefluxocaixaviafila
+    build:
+      context: .
+      dockerfile: Stone.FluxoCaixaViaFila.WebApi/Dockerfile
+

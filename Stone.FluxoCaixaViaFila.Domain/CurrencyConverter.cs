@@ -4,9 +4,14 @@ using Newtonsoft.Json;
 
 namespace Stone.FluxoCaixaViaFila.Domain
 {
-    internal class CurrencyConverter : JsonConverter<Decimal>
+    public class CurrencyConverter : JsonConverter
     {
-        public override decimal ReadJson(JsonReader reader, Type objectType, decimal existingValue, bool hasExistingValue, JsonSerializer serializer)
+        public override bool CanConvert(Type objectType)
+        {
+            return (objectType == typeof(decimal));
+        }
+
+        public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
             var valueString = reader.Value.ToString();
 
@@ -22,9 +27,13 @@ namespace Stone.FluxoCaixaViaFila.Domain
                           converted : throw new JsonException($"Valor {reader.Value} nao pode ser convertido, formato incorreto");
         }
 
-        public override void WriteJson(JsonWriter writer, decimal value, JsonSerializer serializer)
+        public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
-            writer.WriteValue($"R$ {value:###.##0,00}");
+            var valueNumber = 0m;
+            valueNumber = decimal.TryParse(value.ToString(), out valueNumber) ? valueNumber : 0m;
+            writer.WriteValue($"R$ {valueNumber:###.##0,00}");
         }
+
     }
+
 }

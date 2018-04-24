@@ -4,6 +4,7 @@
     <TargetFramework>netcoreapp2.0</TargetFramework>
 
     <IsPackable>false</IsPackable>
+    <DockerComposeProjectPath>../docker-compose.dcproj</DockerComposeProjectPath>
   </PropertyGroup>
 
   <ItemGroup>
@@ -19,5 +20,6 @@
   <ItemGroup>
     <ProjectReference Include="..\Stone.FluxoCaixaViaFila.Common\Stone.FluxoCaixaViaFila.Common.csproj" />
     <ProjectReference Include="..\Stone.FluxoCaixaViaFila.Domain\Stone.FluxoCaixaViaFila.Domain.csproj" />
+    <ProjectReference Include="..\Stone.FluxoCaixaViaFila.Infra.MQ\Stone.FluxoCaixaViaFila.Infra.MQ.csproj" />
   </ItemGroup>
 </Project>

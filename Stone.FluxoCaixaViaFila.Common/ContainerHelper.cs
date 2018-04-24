@@ -6,10 +6,14 @@ namespace Stone.FluxoCaixaViaFila.Common
 {
     public class ContainerHelper
     {
-        public static void RegisterServices(Container container){
+        public static void RegisterServices(Container container, Action<Container> setInfra) {
 
             container.Register<ILancamentoFactory, LancamentoFactory>();
-            container.Register<IFluxoCaixaConsumer, FluxoCaixaConsumer>();
+            container.Register<IConsolidarFluxoCaixa, ConsolidarFluxoCaixa>();
+            container.Register<ILancamentoRouter, LancamentoRouter>();
+            container.Register<ILancamentoSpecification, LancamentoSpecification>();
+
+            setInfra(container);
         }
     }
 }

@@ -11,15 +11,15 @@
     "IIS Express": {
       "commandName": "IISExpress",
       "launchBrowser": true,
-      "launchUrl": "api/values",
+      "launchUrl": "api/lancamento",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "Stone.FluxoCaixaViaFila": {
+    "Stone.FluxoCaixaViaFila.WebApi": {
       "commandName": "Project",
       "launchBrowser": true,
-      "launchUrl": "api/values",
+      "launchUrl": "api/lancamento",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },

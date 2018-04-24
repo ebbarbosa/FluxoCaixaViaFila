@@ -4,7 +4,7 @@ using Newtonsoft.Json;
 
 namespace Stone.FluxoCaixaViaFila.Domain
 {
-    internal class PosicaoConverter : JsonConverter<Decimal>
+    public class PosicaoConverter : JsonConverter<Decimal>
     {
         public override decimal ReadJson(JsonReader reader, Type objectType, decimal existingValue, bool hasExistingValue, JsonSerializer serializer)
         {

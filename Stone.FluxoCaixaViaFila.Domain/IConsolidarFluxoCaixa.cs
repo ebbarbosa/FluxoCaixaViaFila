@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 namespace Stone.FluxoCaixaViaFila.Domain
 {
-    public interface IFluxoCaixaConsumer
+    public interface IConsolidarFluxoCaixa
     {
         FluxoCaixa ConsolidarMes(IEnumerable<Lancamento> lancamentos);
     }

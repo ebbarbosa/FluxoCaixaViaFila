@@ -6,12 +6,12 @@ using System.Linq;
 namespace Stone.FluxoCaixaViaFila.Tests
 {
     [Collection("Container")]
-    public class FluxoCaixaConsumerTestFixture : ContainerTestFixture
+    public class ConsolidarFluxoCaixaTestFixture : ContainerTestFixture
     {
         ContainerTestFixture _containerTestFixture;
         private DateTime dia1 = DateTime.Today;
 
-        public FluxoCaixaConsumerTestFixture(ContainerTestFixture containerTestFixture)
+        public ConsolidarFluxoCaixaTestFixture(ContainerTestFixture containerTestFixture)
         {
             _containerTestFixture = containerTestFixture;
         }
@@ -48,14 +48,14 @@ namespace Stone.FluxoCaixaViaFila.Tests
             };
 
             //When
-            var fluxo = _containerTestFixture.Container.GetInstance<IFluxoCaixaConsumer>();
+            var fluxo = _containerTestFixture.Container.GetInstance<IConsolidarFluxoCaixa>();
             var consolidadoMes = fluxo.ConsolidarMes(lancamentos);
 
             //Then
             Assert.True(consolidadoMes.Count == 30);
             var primeiroDia = consolidadoMes.First();
             var segundoDia = consolidadoMes.First(d => d.Data == dia1.AddDays(1));
-            
+
             Assert.NotNull(primeiroDia);
             Assert.NotNull(segundoDia);
             Assert.Equal(dia1, primeiroDia.Data);

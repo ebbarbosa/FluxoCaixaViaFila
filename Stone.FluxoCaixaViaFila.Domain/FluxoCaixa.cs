@@ -13,6 +13,7 @@ namespace Stone.FluxoCaixaViaFila.Domain
         public FluxoCaixa(List<FluxoCaixaDiario> consolidado)
         {
             this.consolidado = consolidado;
+            if (consolidado == null) consolidado = new List<FluxoCaixaDiario>();
         }
 
         public int Count => consolidado.Count;
@@ -21,7 +22,6 @@ namespace Stone.FluxoCaixaViaFila.Domain
 
         public void Add(FluxoCaixaDiario item)
         {
-            if (consolidado == null) consolidado = new List<FluxoCaixaDiario>();
             consolidado.Add(item);
         }
 
@@ -37,7 +37,7 @@ namespace Stone.FluxoCaixaViaFila.Domain
 
         public void CopyTo(FluxoCaixaDiario[] array, int arrayIndex)
         {
-            throw new NotImplementedException();
+            consolidado?.CopyTo(array, arrayIndex);
         }
 
         public IEnumerator<FluxoCaixaDiario> GetEnumerator()
@@ -47,7 +47,7 @@ namespace Stone.FluxoCaixaViaFila.Domain
 
         public bool Remove(FluxoCaixaDiario item)
         {
-            throw new NotImplementedException();
+            return consolidado.Remove(item);
         }
 
         IEnumerator IEnumerable.GetEnumerator()

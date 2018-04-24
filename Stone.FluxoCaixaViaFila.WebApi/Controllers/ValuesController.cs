@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Stone.FluxoCaixaViaFila.Controllers
+namespace Stone.FluxoCaixaViaFila.WebApi.Controllers
 {
     [Route("api/[controller]")]
     public class ValuesController : Controller
