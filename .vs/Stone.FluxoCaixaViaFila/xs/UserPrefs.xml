@@ -1,13 +1,17 @@
 ﻿<Properties StartupConfiguration="{F5217625-DD6F-42BE-A6B8-198DABC0B55E}|Default">
-  <MonoDevelop.Ide.Workbench ActiveDocument="Stone.FluxoCaixaViaFila.WebApi/Startup.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Stone.FluxoCaixaViaFila.Infra.MQ/RecebimentoMq.cs">
     <Files>
-      <File FileName="Stone.FluxoCaixaViaFila.WebApi/Controllers/LancamentoController.cs" Line="28" Column="30" />
+      <File FileName="Stone.FluxoCaixaViaFila.WebApi/Controllers/LancamentoController.cs" Line="34" Column="1" />
       <File FileName="Stone.FluxoCaixaViaFila.Domain/Lancamento.cs" Line="65" Column="18" />
       <File FileName="Stone.FluxoCaixaViaFila.Domain/CurrencyConverter.cs" Line="38" Column="6" />
-      <File FileName="Stone.FluxoCaixaViaFila.WebApi/Startup.cs" Line="43" Column="25" />
       <File FileName="docker-compose.yml" Line="4" Column="33" />
       <File FileName="Stone.FluxoCaixaViaFila.WebApi/Dockerfile" Line="15" Column="36" />
+      <File FileName="Stone.FluxoCaixaViaFila.WebApi/Startup.cs" Line="127" Column="1" />
       <File FileName="Stone.FluxoCaixaViaFila.WebApi/Program.cs" Line="21" Column="1" />
+      <File FileName="Stone.FluxoCaixaViaFila.Domain/LancamentoRouter.cs" Line="18" Column="1" />
+      <File FileName="Stone.FluxoCaixaViaFila.Domain/ILancamentoMqFactory.cs" Line="6" Column="14" />
+      <File FileName="Stone.FluxoCaixaViaFila.Infra.MQ/LancamentoMqFactory.cs" Line="19" Column="1" />
+      <File FileName="Stone.FluxoCaixaViaFila.Infra.MQ/RecebimentoMq.cs" Line="36" Column="1" />
     </Files>
     <Pads>
       <Pad Id="MonoDevelop.UnitTesting.TestPad">
@@ -22,6 +26,8 @@
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore>
       <Breakpoint file="/Users/ebarbosa/dev/csharp/Stone.FluxoCaixaViaFila/Stone.FluxoCaixaViaFila.Tests/TestFixtureBase.cs" relfile="Stone.FluxoCaixaViaFila.Tests/TestFixtureBase.cs" line="13" column="42" />
+      <Breakpoint file="/Users/ebarbosa/dev/csharp/Stone.FluxoCaixaViaFila/Stone.FluxoCaixaViaFila.WebApi/Controllers/LancamentoController.cs" relfile="Stone.FluxoCaixaViaFila.WebApi/Controllers/LancamentoController.cs" line="34" column="15" />
+      <Breakpoint file="/Users/ebarbosa/dev/csharp/Stone.FluxoCaixaViaFila/Stone.FluxoCaixaViaFila.Infra.MQ/LancamentoMqFactory.cs" relfile="Stone.FluxoCaixaViaFila.Infra.MQ/LancamentoMqFactory.cs" line="10" column="36" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />

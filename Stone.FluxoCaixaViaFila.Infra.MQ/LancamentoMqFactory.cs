@@ -12,9 +12,9 @@ namespace Stone.FluxoCaixaViaFila.Infra.MQ
                 case TipoLancamentoEnum.recebimento:
                     return new RecebimentoMq();
                 case TipoLancamentoEnum.pagamento:
-                default:
-                    break;
+                    return new PagamentoMq();
             }
+
             throw new ArgumentException($"Nao existe fila para o tipo de lancamento {tipoLancamento}.");
         }
     }

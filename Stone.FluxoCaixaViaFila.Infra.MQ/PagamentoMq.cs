@@ -1,10 +1,10 @@
 ﻿namespace Stone.FluxoCaixaViaFila.Infra.MQ
 {
-    public class RecebimentoMq : MessageMq
+    public class PagamentoMq : MessageMq
     {
-        protected string _queueName = "Recebimento";
+        protected string _queueName = "Pagamento";
 
         public override string QueueName { get => _queueName; }
-	}
+    }
 
 }

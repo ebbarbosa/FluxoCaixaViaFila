@@ -4,31 +4,31 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc.Controllers;
+using Microsoft.AspNetCore.Mvc.ViewComponents;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
+using Microsoft.AspNetCore.Http;
 using Stone.FluxoCaixaViaFila.Common;
-using SimpleInjector;
 using Swashbuckle.AspNetCore.Swagger;
-using Microsoft.Extensions.PlatformAbstractions;
-using Stone.FluxoCaixaViaFila.Domain;
 using Newtonsoft.Json.Converters;
+
+using SimpleInjector;
+using SimpleInjector.Lifestyles;
+using SimpleInjector.Integration.AspNetCore.Mvc;
+using Stone.FluxoCaixaViaFila.Domain;
+using Microsoft.Extensions.PlatformAbstractions;
 
 namespace Stone.FluxoCaixaViaFila.WebApi
 {
     public class Startup
     {
+        Container container = new Container();
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
-
-            var container = new Container();
-            ContainerHelper.RegisterServices(container, c =>
-            {
-                InfraContainerHelper.RegisterServices(c);
-            });
-            container.Verify();
         }
 
         public IConfiguration Configuration { get; }
@@ -44,6 +44,8 @@ namespace Stone.FluxoCaixaViaFila.WebApi
                         opt.SerializerSettings.Converters.Add(new PosicaoConverter());
                         opt.SerializerSettings.Converters.Add(new CustomDateConverter("dd-MM-yyyy"));
                     });
+
+            IntegrateSimpleInjector(services);
 
             services.AddSwaggerGen(c =>
             {
@@ -71,13 +73,32 @@ namespace Stone.FluxoCaixaViaFila.WebApi
             });
         }
 
+        private void IntegrateSimpleInjector(IServiceCollection services)
+        {
+            container.Options.DefaultScopedLifestyle = new AsyncScopedLifestyle();
+
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
+            services.AddSingleton<IControllerActivator>(
+                new SimpleInjectorControllerActivator(container));
+            services.AddSingleton<IViewComponentActivator>(
+                new SimpleInjectorViewComponentActivator(container));
+
+            services.EnableSimpleInjectorCrossWiring(container);
+            services.UseSimpleInjectorAspNetRequestScoping(container);
+        }
+
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+            InitializeContainer(app);
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            container.Verify();
 
             app.UseMvc();
 
@@ -88,6 +109,23 @@ namespace Stone.FluxoCaixaViaFila.WebApi
                 c.SwaggerEndpoint("/swagger/v1/swagger.json",
                     "Filas de Lancamentos");
             });
+        }
+
+        private void InitializeContainer(IApplicationBuilder app)
+        {
+            // Add application presentation components:
+            container.RegisterMvcControllers(app);
+            container.RegisterMvcViewComponents(app);
+
+            // Add application services. For instance:
+
+            ContainerHelper.RegisterServices(container, c =>
+            {
+                InfraContainerHelper.RegisterServices(c);
+            });
+
+            // Allow Simple Injector to resolve services from ASP.NET Core.
+            container.AutoCrossWireAspNetComponents(app);
         }
     }
 }
