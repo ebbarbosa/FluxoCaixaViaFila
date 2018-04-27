@@ -10,4 +10,8 @@
   <ItemGroup>
     <Compile Remove="IRecebimentoMq.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="interfaces\" />
+    <Folder Include="common\" />
+  </ItemGroup>
 </Project>

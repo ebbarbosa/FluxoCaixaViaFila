@@ -14,6 +14,7 @@ namespace Stone.FluxoCaixaViaFila.Tests
         {
             this.Container = new Container();
             ContainerHelper.RegisterServices(Container, c => {
+                c.Register<IFluxoCaixaRepository, FluxoCaixaRepository>(Lifestyle.Singleton);
                 c.Register<ILancamentoMqFactory, LancamentoMqFactory>(Lifestyle.Singleton);
             });
             Container.Verify();

@@ -2,19 +2,21 @@
 {
     public class LancamentoRouter : ILancamentoRouter
     {
-        private ILancamentoSpecification _lancamentoSpecification;
-        private ILancamentoMqFactory _lancamentoMqFactory;
+        private ILancamentoSpecificationFactory lancamentoSpecificationFactory;
+        private ILancamentoMqFactory lancamentoMqFactory;
 
-        public LancamentoRouter(ILancamentoSpecification lancamentoSpecification, ILancamentoMqFactory lancamentoMqFactory)
+        public LancamentoRouter(ILancamentoSpecificationFactory lancamentoSpecificationFactory, ILancamentoMqFactory lancamentoMqFactory)
         {
-            _lancamentoMqFactory = lancamentoMqFactory;
-            _lancamentoSpecification = lancamentoSpecification;
+            this.lancamentoMqFactory = lancamentoMqFactory;
+            this.lancamentoSpecificationFactory = lancamentoSpecificationFactory;
         }
 
         public void RotearPraFila(Lancamento lancamento)
         {
-            _lancamentoSpecification.Validate(lancamento);
-            var lancamentoMq = _lancamentoMqFactory.Create(lancamento.TipoLancamento);
+            var lancamentoSpecification = lancamentoSpecificationFactory.Create(lancamento);
+            lancamentoSpecification.Validate();
+
+            var lancamentoMq = lancamentoMqFactory.Create(lancamento.TipoLancamento);
             lancamentoMq.Put(lancamento);
         }
     }

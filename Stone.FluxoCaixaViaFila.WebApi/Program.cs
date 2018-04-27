@@ -23,3 +23,4 @@ namespace Stone.FluxoCaixaViaFila.WebApi
                 .Build();
     }
 }
+

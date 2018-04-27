@@ -2,6 +2,6 @@
 {
 	public interface ILancamentoSpecification
 	{
-		void Validate(Lancamento lancamento);
+		void Validate();
 	}
 }

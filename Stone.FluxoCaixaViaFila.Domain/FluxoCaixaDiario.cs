@@ -8,10 +8,10 @@ namespace Stone.FluxoCaixaViaFila.Domain
     public class FluxoCaixaDiario
     {
 
-        [JsonProperty("posicao_do_dia")]
+        [JsonProperty("data")]
         public DateTime Data { get; set; }
 
-        [JsonProperty("posicao_do_dia")]
+        [JsonProperty("entradas")]
         public IEnumerable<Registro> Entradas { get; set; }
 
         [JsonProperty("saidas")]

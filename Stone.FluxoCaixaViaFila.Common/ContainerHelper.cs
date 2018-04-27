@@ -11,7 +11,7 @@ namespace Stone.FluxoCaixaViaFila.Common
             container.Register<ILancamentoFactory, LancamentoFactory>();
             container.Register<IConsolidarFluxoCaixa, ConsolidarFluxoCaixa>();
             container.Register<ILancamentoRouter, LancamentoRouter>();
-            container.Register<ILancamentoSpecification, LancamentoSpecification>();
+            container.Register<ILancamentoSpecificationFactory, LancamentoSpecificationFactory>();
 
             setInfra(container);
         }

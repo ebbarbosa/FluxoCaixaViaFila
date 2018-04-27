@@ -9,10 +9,11 @@ namespace Stone.FluxoCaixaViaFila.Domain
     public class FluxoCaixa : ICollection<FluxoCaixaDiario>
     {
         private ICollection<FluxoCaixaDiario> consolidado;
+        private IEnumerable<KeyValuePair<DateTime, FluxoCaixaDiario>> copyOfLancamento;
 
-        public FluxoCaixa(List<FluxoCaixaDiario> consolidado)
+        public FluxoCaixa(IEnumerable<FluxoCaixaDiario> consolidado)
         {
-            this.consolidado = consolidado;
+            this.consolidado = new List<FluxoCaixaDiario>(consolidado);
             if (consolidado == null) consolidado = new List<FluxoCaixaDiario>();
         }
 

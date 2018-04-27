@@ -10,6 +10,7 @@ namespace Stone.FluxoCaixaViaFila.WebApi
         internal static void RegisterServices(Container c)
         {
             c.Register<ILancamentoMqFactory, LancamentoMqFactory>(Lifestyle.Singleton);
+            c.Register<IFluxoCaixaRepository, FluxoCaixaRepository>(Lifestyle.Singleton);
         }
     }
 }
