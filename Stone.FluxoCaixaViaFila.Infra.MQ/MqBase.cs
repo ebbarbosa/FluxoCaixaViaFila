@@ -1,122 +1,81 @@
 ﻿using System;
+using System.Text;
 using RabbitMQ.Client;
+using RabbitMQ.Client.Events;
 
 namespace Stone.FluxoCaixaViaFila.Infra.MQ
 {
     public abstract class MqBase : IDisposable
     {
-        private IConnection _Connection;
-        private IModel _channel;
+        private IConnection connection;
+        private IModel channel;
         private readonly object _InitializeLock = new object();
 
-        private void Initialize()
+        protected void BasicConsume(string queueName, Action<string> readMessage)
         {
-            IConnection oldConnection = _Connection;
-            IModel oldChannel = _channel;
-            lock (_InitializeLock)
+            channel.QueueDeclare(queue: queueName,
+                                 durable: true,
+                                 exclusive: false,
+                                 autoDelete: false,
+                                 arguments: null);
+
+            var consumer = new EventingBasicConsumer(channel);
+            consumer.Received += (model, ea) =>
             {
-                if (_Connection == oldConnection)
-                {
-                    ConnectionFactory factory = new ConnectionFactory();
-                    // "guest"/"guest" by default, limited to localhost connections
-                    factory.UserName = user;
-                    factory.Password = pass;
-                    factory.VirtualHost = vhost;
-                    factory.HostName = Host;
+                var body = ea.Body;
+                var message = Encoding.UTF8.GetString(body);
 
-                    _Connection = factory.CreateConnection();
-                }
+                readMessage(message);
 
-                if (_channel == oldChannel)
-                {
-                    _channel = _Connection.CreateModel();
-                }
-            }
-        }
-
-        protected abstract string Host { get; }
-        protected abstract string user { get; }
-        protected abstract string pass { get; }
-        protected abstract string vhost { get; }
-        protected abstract string exchange { get; }
-        protected abstract string routingKey { get; }
-
-
-        protected void ExecuteWithRetryOnConnectionError(string queueName, string exchange, string routingKey, Action<IModel> action)
-        {
-            if (_Connection == null || _channel == null)
-            {
-                Initialize();
-            }
-
-            Action execute = () =>
-            {
-                _channel.QueueBind(queueName, exchange, routingKey);
-                action(_channel);
+                channel.BasicAck(deliveryTag: ea.DeliveryTag, multiple: false);
             };
-            try
-            {
-                execute();
-            }
-            catch (RabbitMQ.Client.Exceptions.ConnectFailureException)
-            {
-                Initialize();
-                execute();
-            }
-            catch
-            {
-                throw;
-            }
-            finally
-            {
-                _channel?.Close();
-            }
-        }
+            channel.BasicConsume(queue: queueName,
+                                 autoAck: false,
+                                 consumer: consumer);
 
-
-        protected void BasicGet(string queueName, Action<BasicGetResult> readMessage)
-        {
-            Action<IModel> get = c => {
-                bool noAck = false;
-                BasicGetResult result = c.BasicGet(queueName, noAck);
-                if (result == null)
-                {
-                    // No message available at this time.
-                }
-                else
-                {
-                    IBasicProperties props = result.BasicProperties;
-                    byte[] body = result.Body;
-
-                    readMessage(result);
-
-                    c.BasicAck(result.DeliveryTag, false);
-                }
-            };
-
-            ExecuteWithRetryOnConnectionError(queueName, exchange, routingKey, get);
         }
 
         protected void BasicPublish(string queueName, Action<byte[]> populateMessage)
         {
-            Action<IModel> put = c =>
-            {
-                byte[] messageBodyBytes = { };
-                populateMessage(messageBodyBytes);
-                c.BasicPublish(exchange, routingKey, null, messageBodyBytes);
-            };
+            channel.QueueDeclare(queue: queueName,
+                     durable: true,
+                     exclusive: false,
+                     autoDelete: false,
+                     arguments: null);
 
-            ExecuteWithRetryOnConnectionError(queueName, exchange, routingKey, put);
+
+            byte[] messageBodyBytes = { };
+            populateMessage(messageBodyBytes);
+
+            var properties = channel.CreateBasicProperties();
+            properties.Persistent = true;
+
+            channel.BasicPublish(exchange: "",
+                                 routingKey: queueName,
+                                 basicProperties: properties,
+                                 body: messageBodyBytes);
         }
 
-        public void Close()
+        public void Register()
         {
-            _channel?.Close();
+            var factory = new ConnectionFactory() { HostName = "localhost" };
+            connection = factory.CreateConnection();
+            channel = connection.CreateModel();
+
+
+
+            channel.BasicQos(prefetchSize: 0, prefetchCount: 1, global: false);
+        }
+
+        public void Deregister()
+        {
+            channel?.Close();
+            connection?.Close();
         }
 
         public void Dispose()
         {
-            _channel?.Dispose();
+            Deregister();
         }
     }
 }

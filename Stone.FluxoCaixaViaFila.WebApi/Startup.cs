@@ -19,6 +19,8 @@ using SimpleInjector.Lifestyles;
 using SimpleInjector.Integration.AspNetCore.Mvc;
 using Stone.FluxoCaixaViaFila.Domain;
 using Microsoft.Extensions.PlatformAbstractions;
+using Stone.FluxoCaixaViaFila.Infra.MQ;
+using Microsoft.Extensions.Hosting;
 
 namespace Stone.FluxoCaixaViaFila.WebApi
 {
@@ -71,6 +73,8 @@ namespace Stone.FluxoCaixaViaFila.WebApi
 
                 c.IncludeXmlComments(caminhoXmlDoc);
             });
+
+            services.AddSingleton<IHostedService, FluxoCaixaService>();
         }
 
         private void IntegrateSimpleInjector(IServiceCollection services)
@@ -86,6 +90,7 @@ namespace Stone.FluxoCaixaViaFila.WebApi
 
             services.EnableSimpleInjectorCrossWiring(container);
             services.UseSimpleInjectorAspNetRequestScoping(container);
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -109,6 +114,8 @@ namespace Stone.FluxoCaixaViaFila.WebApi
                 c.SwaggerEndpoint("/swagger/v1/swagger.json",
                     "Filas de Lancamentos");
             });
+
+            //app.UseFluxoCaixaConsumer();
         }
 
         private void InitializeContainer(IApplicationBuilder app)

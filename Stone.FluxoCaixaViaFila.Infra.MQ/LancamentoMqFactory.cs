@@ -5,7 +5,7 @@ namespace Stone.FluxoCaixaViaFila.Infra.MQ
 {
     public class LancamentoMqFactory : ILancamentoMqFactory
     {
-        public IMessageMq Create(TipoLancamentoEnum tipoLancamento)
+        public IPublisherMq Create(TipoLancamentoEnum tipoLancamento)
         {
             switch (tipoLancamento)
             {

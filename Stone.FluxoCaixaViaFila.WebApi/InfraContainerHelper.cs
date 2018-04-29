@@ -1,4 +1,5 @@
 ﻿using System;
+using Microsoft.Extensions.Hosting;
 using SimpleInjector;
 using Stone.FluxoCaixaViaFila.Domain;
 using Stone.FluxoCaixaViaFila.Infra.MQ;
@@ -11,6 +12,8 @@ namespace Stone.FluxoCaixaViaFila.WebApi
         {
             c.Register<ILancamentoMqFactory, LancamentoMqFactory>(Lifestyle.Singleton);
             c.Register<IFluxoCaixaRepository, FluxoCaixaRepository>(Lifestyle.Singleton);
+            c.Register<IFluxoCaixaConsumer, FluxoCaixaConsumer>(Lifestyle.Singleton);
+            c.Register<IHostedService, FluxoCaixaService>(Lifestyle.Singleton);
         }
     }
 }

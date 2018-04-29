@@ -1,8 +1,7 @@
 ﻿namespace Stone.FluxoCaixaViaFila.Domain
 {
-    public interface IMessageMq
+    public interface IPublisherMq
     {
         void Put(Lancamento lancamento);
-        Lancamento Get();
     }
 }

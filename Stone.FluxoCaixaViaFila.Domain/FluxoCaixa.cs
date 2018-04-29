@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using Newtonsoft.Json;
@@ -9,7 +8,6 @@ namespace Stone.FluxoCaixaViaFila.Domain
     public class FluxoCaixa : ICollection<FluxoCaixaDiario>
     {
         private ICollection<FluxoCaixaDiario> consolidado;
-        private IEnumerable<KeyValuePair<DateTime, FluxoCaixaDiario>> copyOfLancamento;
 
         public FluxoCaixa(IEnumerable<FluxoCaixaDiario> consolidado)
         {

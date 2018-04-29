@@ -7,5 +7,6 @@ namespace Stone.FluxoCaixaViaFila.Domain
         FluxoCaixa Get();
         FluxoCaixa Get(DateTime dataInicio);
         FluxoCaixaDiario GetPorDia(DateTime dataLancamento);
-    }
+        void Add(string message);
+	}
 }

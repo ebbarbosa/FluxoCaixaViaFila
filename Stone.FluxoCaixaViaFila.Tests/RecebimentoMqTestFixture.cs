@@ -1,10 +1,10 @@
 ﻿using System;
+using System.Linq;
 using Stone.FluxoCaixaViaFila.Domain;
 using Xunit;
 
 namespace Stone.FluxoCaixaViaFila.Tests
 {
-    [Collection("Container")]
     public class RecebimentoMqTestFixture : ContainerTestFixture
     {
         private readonly ContainerTestFixture containerTestFixture;
@@ -15,12 +15,13 @@ namespace Stone.FluxoCaixaViaFila.Tests
         }
 
         [Fact]
-        public void RecebimentoMq_puts_and_gets_lancamento()
+        public void LancamentoFactory_recebe_lancamentos_valida_e_coloca_no_repositorio()
         {
 
             var factoryMq = containerTestFixture.Container.GetInstance<ILancamentoMqFactory>();
 
-            var recebimento = new Lancamento(){
+            var recebimento = new Lancamento()
+            {
                 DataLancamento = DateTime.Now.Date,
                 Valor = 1000m,
                 TipoLancamento = TipoLancamentoEnum.recebimento,
@@ -36,11 +37,50 @@ namespace Stone.FluxoCaixaViaFila.Tests
 
             recMq.Put(recebimento);
 
-            var recebimentoGet = recMq.Get();
+            var repo = Container.GetInstance<IFluxoCaixaRepository>();
+            var fluxoCaixaDiario = repo.GetPorDia(recebimento.DataLancamento);
+            Assert.NotNull(fluxoCaixaDiario);
+            Assert.Equal(fluxoCaixaDiario.Total, recebimento.Valor);
 
-            Assert.Equal(recebimento.DataLancamento, recebimentoGet.DataLancamento);
-            Assert.Equal(recebimento.Valor, recebimentoGet.Valor);
-            Assert.Equal(recebimento.BancoDestino, recebimentoGet.BancoDestino);
+            var recebimentoRegistro = fluxoCaixaDiario.Entradas.SingleOrDefault(e => e.Data.Equals(recebimento.DataLancamento));
+            Assert.NotNull(recebimentoRegistro);
+            Assert.Equal(recebimento.DataLancamento, recebimentoRegistro.Data);
+            Assert.Equal(recebimento.Valor, recebimentoRegistro.Valor);
+
+
+            Assert.NotNull(fluxoCaixaDiario.Encargos.SingleOrDefault(e => e.Data.Equals(recebimento.DataLancamento) &&
+                                                                     e.Valor.Equals(recebimento.Valor)));
+                           
+            var pagamento = new Lancamento()
+            {
+                DataLancamento = DateTime.Now.Date,
+                Valor = 1000m,
+                TipoLancamento = TipoLancamentoEnum.pagamento,
+                TipoConta = TipoContaEnum.corrente,
+                BancoDestino = "237",
+                ContaDestino = "00021212",
+                CpfCnpjFormatado = "11.111.111/0001-11",
+                Descricao = "rec put and get",
+                Encargos = 0.44m,
+            };
+
+            var pagMq = factoryMq.Create(pagamento.TipoLancamento);
+
+            pagMq.Put(pagamento);
+
+            fluxoCaixaDiario = repo.GetPorDia(pagamento.DataLancamento);
+            Assert.NotNull(fluxoCaixaDiario);
+            Assert.Equal(fluxoCaixaDiario.Total, recebimento.Valor - pagamento.Valor);
+
+            var registro = fluxoCaixaDiario.Saidas.SingleOrDefault(e => e.Data.Equals(pagamento.DataLancamento));
+            Assert.NotNull(registro);
+            Assert.Equal(pagamento.DataLancamento, registro.Data);
+            Assert.Equal(pagamento.Valor, registro.Valor);
+
+            Assert.NotNull(fluxoCaixaDiario.Encargos.SingleOrDefault(e => e.Data.Equals(pagamento.DataLancamento) &&
+                                                                     e.Valor.Equals(pagamento.Valor * -1)));
+
+
         }
     }
 }
