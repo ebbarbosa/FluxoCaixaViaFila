@@ -74,14 +74,14 @@ namespace Stone.FluxoCaixaViaFila.Domain
         {
             if (lancamento.TipoLancamento == TipoLancamentoEnum.pagamento)
             {
-                this.Saidas.ToList().Add(new Registro
+                this.Saidas.Add(new Registro
                 {
                     Data = lancamento.DataLancamento,
                     Valor = lancamento.Valor
                 });
                 if (lancamento.Encargos > 0)
                 {
-                    this.Encargos.ToList().Add(new Registro
+                    this.Encargos.Add(new Registro
                     {
                         Data = lancamento.DataLancamento,
                         Valor = lancamento.Encargos * -1 //negativo porque sao pagamentos
@@ -90,14 +90,14 @@ namespace Stone.FluxoCaixaViaFila.Domain
             }
             else
             {
-                this.Entradas.ToList().Add(new Registro
+                this.Entradas.Add(new Registro
                 {
                     Data = lancamento.DataLancamento,
                     Valor = lancamento.Valor
                 });
                 if (lancamento.Encargos > 0)
                 {
-                    this.Encargos.ToList().Add(new Registro
+                    this.Encargos.Add(new Registro
                     {
                         Data = lancamento.DataLancamento,
                         Valor = lancamento.Encargos

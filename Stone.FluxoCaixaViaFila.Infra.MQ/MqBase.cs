@@ -7,7 +7,6 @@ namespace Stone.FluxoCaixaViaFila.Infra.MQ
 {
     public abstract class MqBase : IDisposable
     {
-        private IConnection connection;
         private IModel channel;
 
         protected void BasicConsumer(string queueName, Action<string> readMessage)

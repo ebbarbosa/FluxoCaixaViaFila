@@ -49,6 +49,9 @@ namespace Stone.FluxoCaixaViaFila.Infra.MQ
                 var message = Encoding.UTF8.GetString(body);
 
                 var lancamento = JsonConvert.DeserializeObject<Lancamento>(message);
+
+                if (lancamento == null) return;
+
                 var fluxoDiario = new FluxoCaixaDiario();
                 fluxoDiario.Add(lancamento);
                 _fluxoCaixaDiarioMq.Put(message);
