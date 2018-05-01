@@ -20,7 +20,8 @@ namespace Stone.FluxoCaixaViaFila.WebApi
         public static IWebHost BuildWebHost(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
                 .UseStartup<Startup>()
+                .UseShutdownTimeout(TimeSpan.FromSeconds(10))
                 .Build();
     }
 }
-
+

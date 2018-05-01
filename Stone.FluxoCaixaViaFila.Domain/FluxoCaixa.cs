@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Newtonsoft.Json;
 
 namespace Stone.FluxoCaixaViaFila.Domain
@@ -52,6 +54,11 @@ namespace Stone.FluxoCaixaViaFila.Domain
         IEnumerator IEnumerable.GetEnumerator()
         {
             return consolidado?.GetEnumerator();
+        }
+
+        public FluxoCaixaDiario GetPorDia(DateTime dataLancamento)
+        {
+            return consolidado?.FirstOrDefault(c => c.Data.Date.Equals(dataLancamento.Date));
         }
     }
 }

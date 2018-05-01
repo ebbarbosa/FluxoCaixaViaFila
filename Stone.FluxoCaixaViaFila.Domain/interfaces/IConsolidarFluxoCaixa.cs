@@ -4,7 +4,7 @@ namespace Stone.FluxoCaixaViaFila.Domain
 {
     public interface IConsolidarFluxoCaixa
     {
-        FluxoCaixa ConsolidarMes(IEnumerable<Lancamento> lancamentos);
+        FluxoCaixa ConsolidarMes();
     }
 }
 

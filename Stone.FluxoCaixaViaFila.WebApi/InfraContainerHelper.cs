@@ -12,8 +12,6 @@ namespace Stone.FluxoCaixaViaFila.WebApi
         {
             c.Register<ILancamentoMqFactory, LancamentoMqFactory>(Lifestyle.Singleton);
             c.Register<IFluxoCaixaRepository, FluxoCaixaRepository>(Lifestyle.Singleton);
-            c.Register<IFluxoCaixaConsumer, FluxoCaixaConsumer>(Lifestyle.Singleton);
-            c.Register<IHostedService, FluxoCaixaService>(Lifestyle.Singleton);
         }
     }
 }

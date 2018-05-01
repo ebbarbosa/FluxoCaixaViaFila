@@ -2,6 +2,6 @@
 {
     public interface IPublisherMq
     {
-        void Put(Lancamento lancamento);
+        void Put(object messageDeserialized);
     }
 }

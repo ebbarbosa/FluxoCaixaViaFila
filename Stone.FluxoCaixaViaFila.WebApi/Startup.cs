@@ -1,19 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Mvc.ViewComponents;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Http;
 using Stone.FluxoCaixaViaFila.Common;
 using Swashbuckle.AspNetCore.Swagger;
 using Newtonsoft.Json.Converters;
-
 using SimpleInjector;
 using SimpleInjector.Lifestyles;
 using SimpleInjector.Integration.AspNetCore.Mvc;
@@ -21,6 +15,7 @@ using Stone.FluxoCaixaViaFila.Domain;
 using Microsoft.Extensions.PlatformAbstractions;
 using Stone.FluxoCaixaViaFila.Infra.MQ;
 using Microsoft.Extensions.Hosting;
+using IHostingEnvironment = Microsoft.AspNetCore.Hosting.IHostingEnvironment;
 
 namespace Stone.FluxoCaixaViaFila.WebApi
 {
@@ -73,8 +68,6 @@ namespace Stone.FluxoCaixaViaFila.WebApi
 
                 c.IncludeXmlComments(caminhoXmlDoc);
             });
-
-            services.AddSingleton<IHostedService, FluxoCaixaService>();
         }
 
         private void IntegrateSimpleInjector(IServiceCollection services)
@@ -90,6 +83,10 @@ namespace Stone.FluxoCaixaViaFila.WebApi
 
             services.EnableSimpleInjectorCrossWiring(container);
             services.UseSimpleInjectorAspNetRequestScoping(container);
+
+            services.AddSingleton<IHostedService, FluxoCaixaService>().AddSingleton<IFluxoCaixaRepository, FluxoCaixaRepository>();
+            services.AddSingleton<IHostedService, ConsumerPagamentosService>().AddSingleton<IFluxoCaixaDiarioMq, FluxoCaixaDiarioMq>();
+            services.AddSingleton<IHostedService, ConsumerRecebimentosService>().AddSingleton<IFluxoCaixaDiarioMq, FluxoCaixaDiarioMq>();
 
         }
 
@@ -114,8 +111,6 @@ namespace Stone.FluxoCaixaViaFila.WebApi
                 c.SwaggerEndpoint("/swagger/v1/swagger.json",
                     "Filas de Lancamentos");
             });
-
-            //app.UseFluxoCaixaConsumer();
         }
 
         private void InitializeContainer(IApplicationBuilder app)
@@ -126,10 +121,7 @@ namespace Stone.FluxoCaixaViaFila.WebApi
 
             // Add application services. For instance:
 
-            ContainerHelper.RegisterServices(container, c =>
-            {
-                InfraContainerHelper.RegisterServices(c);
-            });
+            ContainerHelper.RegisterServices(container, InfraContainerHelper.RegisterServices);
 
             // Allow Simple Injector to resolve services from ASP.NET Core.
             container.AutoCrossWireAspNetComponents(app);

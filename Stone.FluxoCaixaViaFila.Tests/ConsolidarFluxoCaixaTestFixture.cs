@@ -47,11 +47,21 @@ namespace Stone.FluxoCaixaViaFila.Tests
                 },
             };
 
+
             //When
-            var fluxo = _containerTestFixture.Container.GetInstance<IConsolidarFluxoCaixa>();
-            var consolidadoMes = fluxo.ConsolidarMes(lancamentos);
+            var fluxocaixarepo = Container.GetInstance<IFluxoCaixaRepository>();
+            foreach (var lancamento in lancamentos)
+            {
+                var diario = new FluxoCaixaDiario();
+                diario.Add(lancamento);
+                fluxocaixarepo.Add(diario);
+            }
+
+            var consolidarFluxo = _containerTestFixture.Container.GetInstance<IConsolidarFluxoCaixa>();
+            var consolidadoMes = consolidarFluxo.ConsolidarMes();
 
             //Then
+            Assert.NotNull(consolidadoMes);
             Assert.True(consolidadoMes.Count == 30);
             var primeiroDia = consolidadoMes.First();
             var segundoDia = consolidadoMes.First(d => d.Data == dia1.AddDays(1));
@@ -66,7 +76,7 @@ namespace Stone.FluxoCaixaViaFila.Tests
             FluxoCaixaDiario ultimoDia = consolidadoMes.Last();
             Assert.Equal(dia1.AddDays(29), ultimoDia.Data);
             Assert.Equal(0m, ultimoDia.PosicaoDoDia);
-
+            
         }
     }
 }

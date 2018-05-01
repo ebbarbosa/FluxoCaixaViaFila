@@ -9,10 +9,11 @@ namespace Stone.FluxoCaixaViaFila.Infra.MQ
     {
         private IConnection connection;
         private IModel channel;
-        private readonly object _InitializeLock = new object();
 
-        protected void BasicConsume(string queueName, Action<string> readMessage)
+        protected void BasicConsumer(string queueName, Action<string> readMessage)
         {
+            Register();
+
             channel.QueueDeclare(queue: queueName,
                                  durable: true,
                                  exclusive: false,
@@ -29,23 +30,21 @@ namespace Stone.FluxoCaixaViaFila.Infra.MQ
 
                 channel.BasicAck(deliveryTag: ea.DeliveryTag, multiple: false);
             };
-            channel.BasicConsume(queue: queueName,
-                                 autoAck: false,
-                                 consumer: consumer);
+            channel.BasicConsume(queueName,
+                                 false,
+                                 consumer);
 
         }
 
-        protected void BasicPublish(string queueName, Action<byte[]> populateMessage)
+        protected void BasicPublish(string queueName, byte[] message)
         {
+            Register();
+
             channel.QueueDeclare(queue: queueName,
                      durable: true,
                      exclusive: false,
                      autoDelete: false,
                      arguments: null);
-
-
-            byte[] messageBodyBytes = { };
-            populateMessage(messageBodyBytes);
 
             var properties = channel.CreateBasicProperties();
             properties.Persistent = true;
@@ -53,29 +52,18 @@ namespace Stone.FluxoCaixaViaFila.Infra.MQ
             channel.BasicPublish(exchange: "",
                                  routingKey: queueName,
                                  basicProperties: properties,
-                                 body: messageBodyBytes);
+                                 body: message);
         }
 
         public void Register()
         {
-            var factory = new ConnectionFactory() { HostName = "localhost" };
-            connection = factory.CreateConnection();
-            channel = connection.CreateModel();
-
-
-
+            channel = RabbitMqConnectionHelper.GetModel();
             channel.BasicQos(prefetchSize: 0, prefetchCount: 1, global: false);
-        }
-
-        public void Deregister()
-        {
-            channel?.Close();
-            connection?.Close();
         }
 
         public void Dispose()
         {
-            Deregister();
+            channel?.Close();
         }
     }
 }

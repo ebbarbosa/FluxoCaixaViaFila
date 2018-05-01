@@ -4,7 +4,7 @@ using Newtonsoft.Json.Converters;
 
 namespace Stone.FluxoCaixaViaFila.Domain
 {
-    [Serializable]
+    //[Serializable]
     /// <summary>
     /// Lancamento valido sera colocado na fila devida, de acordo com seu tipo_de_lancamento.
     /// Lancamento e valido quando a data_lancamento maior ou igual a data corrente.

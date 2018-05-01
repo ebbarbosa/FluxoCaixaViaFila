@@ -1,12 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Stone.FluxoCaixaViaFila.Domain
 {
     public interface IFluxoCaixaRepository
     {
-        FluxoCaixa Get();
-        FluxoCaixa Get(DateTime dataInicio);
-        FluxoCaixaDiario GetPorDia(DateTime dataLancamento);
-        void Add(string message);
-	}
+        void Add(FluxoCaixaDiario fluxoCaixaDiario);
+        IEnumerable<FluxoCaixaDiario> GetDiarios();
+
+    }
 }

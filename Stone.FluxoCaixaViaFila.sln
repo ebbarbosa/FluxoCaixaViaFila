@@ -1,17 +1,16 @@
-
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Stone.FluxoCaixaViaFila.Domain", "Stone.FluxoCaixaViaFila.Domain\Stone.FluxoCaixaViaFila.Domain.csproj", "{6D6E4392-D5FA-40C0-A606-AD6324CC1188}"
+# Visual Studio 15
+VisualStudioVersion = 15.0.27428.2015
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Stone.FluxoCaixaViaFila.Domain", "Stone.FluxoCaixaViaFila.Domain\Stone.FluxoCaixaViaFila.Domain.csproj", "{6D6E4392-D5FA-40C0-A606-AD6324CC1188}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Stone.FluxoCaixaViaFila.Infra.MQ", "Stone.FluxoCaixaViaFila.Infra.MQ\Stone.FluxoCaixaViaFila.Infra.MQ.csproj", "{F62C095A-F8E4-4636-83F0-ED195E3F0114}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Stone.FluxoCaixaViaFila.Infra.MQ", "Stone.FluxoCaixaViaFila.Infra.MQ\Stone.FluxoCaixaViaFila.Infra.MQ.csproj", "{F62C095A-F8E4-4636-83F0-ED195E3F0114}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Stone.FluxoCaixaViaFila.Tests", "Stone.FluxoCaixaViaFila.Tests\Stone.FluxoCaixaViaFila.Tests.csproj", "{0EAEEBC1-1E39-4803-B000-9DC5C63A1155}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Stone.FluxoCaixaViaFila.Tests", "Stone.FluxoCaixaViaFila.Tests\Stone.FluxoCaixaViaFila.Tests.csproj", "{0EAEEBC1-1E39-4803-B000-9DC5C63A1155}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Stone.FluxoCaixaViaFila.Common", "Stone.FluxoCaixaViaFila.Common\Stone.FluxoCaixaViaFila.Common.csproj", "{F7F52BE4-5778-4113-9A0A-6AFCB503A737}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Stone.FluxoCaixaViaFila.Common", "Stone.FluxoCaixaViaFila.Common\Stone.FluxoCaixaViaFila.Common.csproj", "{F7F52BE4-5778-4113-9A0A-6AFCB503A737}"
 EndProject
-Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{ADC7AAFF-3C85-4C68-90BC-024716FD5CCF}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Stone.FluxoCaixaViaFila.WebApi", "Stone.FluxoCaixaViaFila.WebApi\Stone.FluxoCaixaViaFila.WebApi.csproj", "{F5217625-DD6F-42BE-A6B8-198DABC0B55E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Stone.FluxoCaixaViaFila.WebApi", "Stone.FluxoCaixaViaFila.WebApi\Stone.FluxoCaixaViaFila.WebApi.csproj", "{F5217625-DD6F-42BE-A6B8-198DABC0B55E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -35,13 +34,15 @@ Global
 		{F7F52BE4-5778-4113-9A0A-6AFCB503A737}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F7F52BE4-5778-4113-9A0A-6AFCB503A737}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F7F52BE4-5778-4113-9A0A-6AFCB503A737}.Release|Any CPU.Build.0 = Release|Any CPU
-		{ADC7AAFF-3C85-4C68-90BC-024716FD5CCF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{ADC7AAFF-3C85-4C68-90BC-024716FD5CCF}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{ADC7AAFF-3C85-4C68-90BC-024716FD5CCF}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{ADC7AAFF-3C85-4C68-90BC-024716FD5CCF}.Release|Any CPU.Build.0 = Release|Any CPU
 		{F5217625-DD6F-42BE-A6B8-198DABC0B55E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{F5217625-DD6F-42BE-A6B8-198DABC0B55E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F5217625-DD6F-42BE-A6B8-198DABC0B55E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F5217625-DD6F-42BE-A6B8-198DABC0B55E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {8D24A281-A0CE-419F-BAC7-0788F52E8CE1}
 	EndGlobalSection
 EndGlobal

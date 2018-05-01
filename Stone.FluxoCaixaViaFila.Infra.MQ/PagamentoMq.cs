@@ -6,5 +6,4 @@
 
         public override string QueueName { get => _queueName; }
     }
-
 }

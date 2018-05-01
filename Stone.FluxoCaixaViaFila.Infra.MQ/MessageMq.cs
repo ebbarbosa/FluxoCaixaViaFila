@@ -7,14 +7,11 @@ namespace Stone.FluxoCaixaViaFila.Infra.MQ
     {
         public abstract string QueueName { get; }
 
-        public void Put(Lancamento lancamento)
+        public void Put(object messageDeserialized)
         {
-            var message = JsonConvert.SerializeObject(lancamento);
-            base.BasicPublish(QueueName, msg =>
-            {
-                msg = System.Text.Encoding.UTF8.GetBytes(message);
-            });
+            var message = JsonConvert.SerializeObject(messageDeserialized);
+            var bytes = System.Text.Encoding.UTF8.GetBytes(message);
+            base.BasicPublish(QueueName, bytes);
         }
     }
-
 }

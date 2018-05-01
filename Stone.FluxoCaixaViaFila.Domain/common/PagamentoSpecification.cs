@@ -2,13 +2,8 @@
 {
     public class PagamentoSpecification : LancamentoSpecification
     {
-        public PagamentoSpecification(IFluxoCaixaRepository fluxoCaixaRepository, Lancamento lancamento) : base(fluxoCaixaRepository, lancamento)
+        public PagamentoSpecification(IConsolidarFluxoCaixa consolidarFluxoCaixa, Lancamento lancamento) : base(consolidarFluxoCaixa, lancamento)
         {
-        }
-
-        public override void Validate()
-        {
-            base.Validate();
         }
     }
 }

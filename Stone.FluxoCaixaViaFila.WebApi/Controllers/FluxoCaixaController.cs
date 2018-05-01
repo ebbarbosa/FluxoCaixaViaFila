@@ -17,11 +17,11 @@ namespace Stone.FluxoCaixaViaFila.WebApi.Controllers
     [Route("api/fluxocaixa")]
     public class FluxoCaixaController : Controller
     {
-        private readonly IFluxoCaixaRepository fluxoCaixaRepository;
+        private readonly IConsolidarFluxoCaixa _consolidarFluxoCaixa;
 
-        public FluxoCaixaController(IFluxoCaixaRepository fluxoCaixaRepository)
+        public FluxoCaixaController(IConsolidarFluxoCaixa consolidarFluxoCaixa)
         {
-            this.fluxoCaixaRepository = fluxoCaixaRepository;
+            this._consolidarFluxoCaixa = consolidarFluxoCaixa;
         }
 
         /// <summary>
@@ -32,7 +32,7 @@ namespace Stone.FluxoCaixaViaFila.WebApi.Controllers
         [HttpGet]
         public FluxoCaixa Get()
         {
-            return fluxoCaixaRepository.Get();
+            return _consolidarFluxoCaixa.ConsolidarMes();
         }
 
     }

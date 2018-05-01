@@ -6,12 +6,12 @@ namespace Stone.FluxoCaixaViaFila.Domain
     public abstract class LancamentoSpecification : ILancamentoSpecification
     {
         protected const decimal LIMITE_DIARIO = 20000m;
-        protected IFluxoCaixaRepository fluxoCaixaRepository;
+        protected IConsolidarFluxoCaixa consolidarFluxoCaixa;
         protected Lancamento lancamento;
 
-        public LancamentoSpecification(IFluxoCaixaRepository fluxoCaixaRepository, Lancamento lancamento)
+        public LancamentoSpecification(IConsolidarFluxoCaixa consolidarFluxoCaixa, Lancamento lancamento)
         {
-            this.fluxoCaixaRepository = fluxoCaixaRepository;
+            this.consolidarFluxoCaixa = consolidarFluxoCaixa;
             this.lancamento = lancamento;
         }
 

@@ -16,7 +16,7 @@ namespace Stone.FluxoCaixaViaFila.Domain
         public DateTime Data { get; set; }
 
         [JsonProperty("entradas")]
-        public IEnumerable<Registro> Entradas
+        public IList<Registro> Entradas
         {
             get
             {
@@ -29,7 +29,7 @@ namespace Stone.FluxoCaixaViaFila.Domain
         }
 
         [JsonProperty("saidas")]
-        public IEnumerable<Registro> Saidas
+        public IList<Registro> Saidas
         {
             get
             {
@@ -42,7 +42,7 @@ namespace Stone.FluxoCaixaViaFila.Domain
         }
 
         [JsonProperty("encargos")]
-        public IEnumerable<Registro> Encargos
+        public IList<Registro> Encargos
         {
             get
             {
@@ -109,5 +109,29 @@ namespace Stone.FluxoCaixaViaFila.Domain
         [JsonProperty("posicao_do_dia")]
         [JsonConverter(typeof(PosicaoConverter))]
         public decimal PosicaoDoDia { get; set; }
+
+        public void AddEncargos(IEnumerable<Registro> fluxodiarioEncargos)
+        {
+            foreach (var fluxodiarioEncargo in fluxodiarioEncargos)
+            {
+                this.Encargos.Add(fluxodiarioEncargo);
+            }
+        }
+
+        public void AddSaidas(IEnumerable<Registro> fluxodiarioSaidas)
+        {
+            foreach (var fluxodiarioEncargo in fluxodiarioSaidas)
+            {
+                this.Saidas.Add(fluxodiarioEncargo);
+            }
+        }
+
+        public void AddEntradas(IEnumerable<Registro> fluxodiarioEntradas)
+        {
+            foreach (var fluxodiarioEncargo in fluxodiarioEntradas)
+            {
+                this.Entradas.Add(fluxodiarioEncargo);
+            }
+        }
     }
 }

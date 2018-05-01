@@ -1,4 +1,6 @@
 ﻿using System;
+using RabbitMQ.Client;
+using RabbitMQ.Client.Framing;
 using SimpleInjector;
 using Stone.FluxoCaixaViaFila.Domain;
 

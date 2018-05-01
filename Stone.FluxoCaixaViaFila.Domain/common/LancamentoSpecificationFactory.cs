@@ -4,11 +4,11 @@ namespace Stone.FluxoCaixaViaFila.Domain
 {
     public class LancamentoSpecificationFactory : ILancamentoSpecificationFactory
     {
-        private readonly IFluxoCaixaRepository fluxoCaixaRepository;
+        private readonly IConsolidarFluxoCaixa consolidarFluxoCaixa;
 
-        public LancamentoSpecificationFactory(IFluxoCaixaRepository fluxoCaixaRepository)
+        public LancamentoSpecificationFactory(IConsolidarFluxoCaixa consolidarFluxoCaixa)
         {
-            this.fluxoCaixaRepository = fluxoCaixaRepository;
+            this.consolidarFluxoCaixa = consolidarFluxoCaixa;
         }
 
         public ILancamentoSpecification Create(Lancamento lancamento)
@@ -16,9 +16,9 @@ namespace Stone.FluxoCaixaViaFila.Domain
             switch (lancamento.TipoLancamento)
             {
                 case TipoLancamentoEnum.pagamento:
-                    return new PagamentoSpecification(fluxoCaixaRepository, lancamento);
+                    return new PagamentoSpecification(consolidarFluxoCaixa, lancamento);
                 case TipoLancamentoEnum.recebimento:
-                    return new RecebimentoSpecification(fluxoCaixaRepository, lancamento);
+                    return new RecebimentoSpecification(consolidarFluxoCaixa, lancamento);
                 default:
                     break;
             }
