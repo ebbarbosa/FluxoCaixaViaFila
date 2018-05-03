@@ -22,9 +22,7 @@ namespace Stone.FluxoCaixaViaFila.Infra.MQ
 
         public virtual Task StartAsync(CancellationToken cancellationToken)
         {
-            _scope = _serviceProvider.CreateScope();
-
-            GetRequiredServices(_scope);
+            GetRequiredServices(_serviceProvider);
 
             // Store the task we're executing
             _executingTask = ExecuteAsync(_stoppingCts.Token);
@@ -43,7 +41,7 @@ namespace Stone.FluxoCaixaViaFila.Infra.MQ
 
         protected abstract Task ExecuteAsync(CancellationToken stoppingToken);
 
-        protected abstract void GetRequiredServices(IServiceScope scope);
+        protected abstract void GetRequiredServices(IServiceProvider serviceProvider);
 
         public virtual async Task StopAsync(CancellationToken cancellationToken)
         {

@@ -70,11 +70,17 @@ namespace Stone.FluxoCaixaViaFila.Domain
         }
 
         [JsonProperty("data_de_lancamento")]
-        [JsonConverter(typeof(CustomDateConverter), "dd-MM-yyyy")]
+        [JsonConverter(typeof(CustomDateConverter))]
         public DateTime DataLancamento
         {
             get;
             set;
+        }
+
+        public static bool TryParse(string stringValue, out Lancamento expression)
+        {
+            expression = new Lancamento();
+            return true;
         }
     }
 }

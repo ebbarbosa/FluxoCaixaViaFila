@@ -13,6 +13,7 @@ namespace Stone.FluxoCaixaViaFila.Domain
 
 
         [JsonProperty("data")]
+        [JsonConverter(typeof(CustomDateConverter))]
         public DateTime Data { get; set; }
 
         [JsonProperty("entradas")]
@@ -69,9 +70,14 @@ namespace Stone.FluxoCaixaViaFila.Domain
             }
         }
 
+        [JsonProperty("posicao_do_dia")]
+        [JsonConverter(typeof(PosicaoConverter))]
+        public decimal PosicaoDoDia { get; set; }
+
 
         public void Add(Lancamento lancamento)
         {
+            this.Data = lancamento.DataLancamento.Date;
             if (lancamento.TipoLancamento == TipoLancamentoEnum.pagamento)
             {
                 this.Saidas.Add(new Registro
@@ -105,10 +111,6 @@ namespace Stone.FluxoCaixaViaFila.Domain
                 }
             }
         }
-
-        [JsonProperty("posicao_do_dia")]
-        [JsonConverter(typeof(PosicaoConverter))]
-        public decimal PosicaoDoDia { get; set; }
 
         public void AddEncargos(IEnumerable<Registro> fluxodiarioEncargos)
         {

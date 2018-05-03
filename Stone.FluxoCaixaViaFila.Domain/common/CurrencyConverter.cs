@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Globalization;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
 
 namespace Stone.FluxoCaixaViaFila.Domain
 {
@@ -9,18 +8,14 @@ namespace Stone.FluxoCaixaViaFila.Domain
     {
         public override bool CanConvert(Type objectType)
         {
-            return (objectType == typeof(decimal));
+            return objectType == typeof(decimal) || objectType == typeof(string);
         }
 
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
             var valueString = reader.Value.ToString();
 
-            NumberFormatInfo MyNFI = new NumberFormatInfo();
-            MyNFI.NegativeSign = "-";
-            MyNFI.CurrencyDecimalSeparator = ",";
-            MyNFI.CurrencyGroupSeparator = ".";
-            MyNFI.CurrencySymbol = "R$";
+            var MyNFI = NumberFormatInfo();
 
             decimal converted = 0m;
 
@@ -30,9 +25,21 @@ namespace Stone.FluxoCaixaViaFila.Domain
 
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
+            var MyNFI = NumberFormatInfo();
             var valueNumber = 0m;
             valueNumber = decimal.TryParse(value.ToString(), out valueNumber) ? valueNumber : 0m;
-            writer.WriteValue($"R$ {valueNumber:###.##0,00}");
+            writer.WriteValue(valueNumber.ToString(MyNFI));
+        }
+
+        private static NumberFormatInfo NumberFormatInfo()
+        {
+            NumberFormatInfo MyNFI = new NumberFormatInfo();
+            MyNFI.NegativeSign = "-";
+            MyNFI.CurrencyDecimalSeparator = ",";
+            MyNFI.CurrencyGroupSeparator = ".";
+            MyNFI.CurrencyDecimalDigits = 2;
+            MyNFI.CurrencySymbol = "R$";
+            return MyNFI;
         }
 
     }

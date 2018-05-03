@@ -1,16 +1,17 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Stone.FluxoCaixaViaFila.Domain
 {
     public class ConsolidarFluxoCaixa : IConsolidarFluxoCaixa
     {
-        private IFluxoCaixaRepository _repository;
+        private readonly IFluxoCaixaRepository _repository;
 
-        public ConsolidarFluxoCaixa(IFluxoCaixaRepository repository)
+        public ConsolidarFluxoCaixa(IFluxoCaixaRepository fluxoCaixaRepository)
         {
-            _repository = repository;
+            _repository = fluxoCaixaRepository;
         }
 
         public FluxoCaixa ConsolidarMes()
@@ -41,22 +42,14 @@ namespace Stone.FluxoCaixaViaFila.Domain
                         diario.AddEncargos(diarioExistente.SelectMany(d => d.Encargos));
                     }
 
-                    var diarioAnteriorTotal = i > 0 ? consolidado.ElementAt(i - 1).Total : diario.Total;
-                    diario.PosicaoDoDia =
-                        Math.Round(
-                            diario.Total == 0
-                                ? (diarioAnteriorTotal < 0 ? 100 : (diarioAnteriorTotal == 0 ? 0 : -100))
-                                : (diario.Total - diarioAnteriorTotal) / diario.Total * 100, 2);
+                    var diarioAnteriorTotal = i > 0 ? consolidado.ElementAt(i - 1).Total : 0;
+                    diario.PosicaoDoDia = DiarioPosicaoDoDia(diario, diarioAnteriorTotal);
 
                 }
                 else
                 {
-                    var diarioAnteriorTotal = i > 0 ? consolidado.ElementAt(i - 1).Total : diario.Total;
-                    diario.PosicaoDoDia =
-                            Math.Round(
-                                diario.Total == 0
-                                    ? (diarioAnteriorTotal < 0 ? 100 : (diarioAnteriorTotal == 0 ? 0 : -100))
-                                    : (diario.Total - diarioAnteriorTotal) / diario.Total * 100, 2);
+                    var diarioAnteriorTotal = i > 0 ? consolidado.ElementAt(i - 1).Total : 0;
+                    diario.PosicaoDoDia = DiarioPosicaoDoDia(diario, diarioAnteriorTotal);
                 }
 
                 consolidado.Add(diario);
@@ -65,5 +58,12 @@ namespace Stone.FluxoCaixaViaFila.Domain
             return new FluxoCaixa(consolidado);
         }
 
+        private static decimal DiarioPosicaoDoDia(FluxoCaixaDiario diario, decimal diarioAnteriorTotal)
+        {
+            return Math.Round(
+                diario.Total == 0
+                    ? (diarioAnteriorTotal < 0 ? 100 : (diarioAnteriorTotal == 0 ? 0 : -100))
+                    : (diarioAnteriorTotal) / diario.Total * 100, 2);
+        }
     }
 }

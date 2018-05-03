@@ -13,47 +13,56 @@ namespace Stone.FluxoCaixaViaFila.Infra.MQ
     public class FluxoCaixaService : QueueHostedService
     {
         public IFluxoCaixaRepository FluxoCaixaRepository { get; private set; }
-        protected IModel _channel;
+        protected IModel Channel;
 
         public FluxoCaixaService(IServiceProvider serviceProvider) : base(serviceProvider)
         {
         }
 
-        protected override void GetRequiredServices(IServiceScope scope)
+        protected override void GetRequiredServices(IServiceProvider serviceProvider)
         {
-            _channel = RabbitMqConnectionHelper.GetModel();
-            FluxoCaixaRepository = scope.ServiceProvider.GetRequiredService<IFluxoCaixaRepository>();
+            Channel = RabbitMqConnectionHelper.GetModel();
+            FluxoCaixaRepository = serviceProvider.GetRequiredService<IFluxoCaixaRepository>();
         }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
             while (!stoppingToken.IsCancellationRequested)
             {
-                ConsumirFluxoCaixa(); 
+                ConsumirFluxoCaixa();
                 await Task.Delay(CheckUpdateTime, stoppingToken);
             }
         }
         private void ConsumirFluxoCaixa()
         {
             var queueName = "FluxoCaixa";
-            _channel.QueueDeclare(queue: queueName,
+            Channel.QueueDeclare(queue: queueName,
                 durable: true,
                 exclusive: false,
                 autoDelete: false,
                 arguments: null);
 
-            var consumer = new EventingBasicConsumer(_channel);
+            var consumer = new EventingBasicConsumer(Channel);
             consumer.Received += (model, ea) =>
             {
                 var body = ea.Body;
                 var message = Encoding.UTF8.GetString(body);
+                try
+                {
+                    var fluxoDiario = JsonConvert.DeserializeObject<FluxoCaixaDiario>(message);
+                    FluxoCaixaRepository.Add(fluxoDiario);
 
-                var fluxoDiario = JsonConvert.DeserializeObject<FluxoCaixaDiario>(message);
-                FluxoCaixaRepository.Add(fluxoDiario);
-
-                _channel.BasicAck(deliveryTag: ea.DeliveryTag, multiple: false);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex);
+                }
+                finally
+                {
+                    Channel.BasicAck(deliveryTag: ea.DeliveryTag, multiple: false);
+                }
             };
-            _channel.BasicConsume(queue: queueName,
+            Channel.BasicConsume(queue: queueName,
                 autoAck: false,
                 consumer: consumer);
         }

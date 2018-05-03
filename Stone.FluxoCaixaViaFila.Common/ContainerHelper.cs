@@ -11,7 +11,7 @@ namespace Stone.FluxoCaixaViaFila.Common
         public static void RegisterServices(Container container, Action<Container> setInfra) {
 
             container.Register<ILancamentoFactory, LancamentoFactory>();
-            container.Register<IConsolidarFluxoCaixa, ConsolidarFluxoCaixa>();
+            container.Register<IConsolidarFluxoCaixa, ConsolidarFluxoCaixa>(Lifestyle.Singleton);
             container.Register<ILancamentoRouter, LancamentoRouter>();
             container.Register<ILancamentoSpecificationFactory, LancamentoSpecificationFactory>();
 

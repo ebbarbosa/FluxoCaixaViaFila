@@ -15,13 +15,13 @@ namespace Stone.FluxoCaixaViaFila.Infra.MQ
         private IFluxoCaixaDiarioMq _fluxoCaixaDiarioMq;
         private IModel _channel;
 
-        public ConsumerLancamentoService(IServiceProvider serviceProvider) : base(serviceProvider)
+        protected ConsumerLancamentoService(IServiceProvider serviceProvider) : base(serviceProvider)
         {
         }
 
-        protected override void GetRequiredServices(IServiceScope scope)
+        protected override void GetRequiredServices(IServiceProvider serviceProvider)
         {
-            _fluxoCaixaDiarioMq = scope.ServiceProvider.GetRequiredService<IFluxoCaixaDiarioMq>();
+            _fluxoCaixaDiarioMq = serviceProvider.GetRequiredService<IFluxoCaixaDiarioMq>();
             _channel = RabbitMqConnectionHelper.GetModel();
         }
 
@@ -54,7 +54,7 @@ namespace Stone.FluxoCaixaViaFila.Infra.MQ
 
                 var fluxoDiario = new FluxoCaixaDiario();
                 fluxoDiario.Add(lancamento);
-                _fluxoCaixaDiarioMq.Put(message);
+                _fluxoCaixaDiarioMq.Put(fluxoDiario);
 
                 _channel.BasicAck(deliveryTag: ea.DeliveryTag, multiple: false);
             };

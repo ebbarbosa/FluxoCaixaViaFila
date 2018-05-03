@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using System.Threading.Tasks;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Mvc.ViewComponents;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Stone.FluxoCaixaViaFila.Common;
 using Swashbuckle.AspNetCore.Swagger;
 using Newtonsoft.Json.Converters;
@@ -15,6 +17,7 @@ using Stone.FluxoCaixaViaFila.Domain;
 using Microsoft.Extensions.PlatformAbstractions;
 using Stone.FluxoCaixaViaFila.Infra.MQ;
 using Microsoft.Extensions.Hosting;
+using Stone.FluxoCaixaViaFila.WebApi.Controllers;
 using IHostingEnvironment = Microsoft.AspNetCore.Hosting.IHostingEnvironment;
 
 namespace Stone.FluxoCaixaViaFila.WebApi
@@ -33,13 +36,10 @@ namespace Stone.FluxoCaixaViaFila.WebApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc()
-                    .AddJsonOptions((opt) =>
+            services.AddMvc().AddJsonOptions((opt) =>
                     {
                         opt.SerializerSettings.Converters.Add(new StringEnumConverter());
-                        opt.SerializerSettings.Converters.Add(new CurrencyConverter());
-                        opt.SerializerSettings.Converters.Add(new PosicaoConverter());
-                        opt.SerializerSettings.Converters.Add(new CustomDateConverter("dd-MM-yyyy"));
+                        opt.SerializerSettings.Converters.Insert(0, new CustomDateConverter());
                     });
 
             IntegrateSimpleInjector(services);
@@ -73,6 +73,9 @@ namespace Stone.FluxoCaixaViaFila.WebApi
         private void IntegrateSimpleInjector(IServiceCollection services)
         {
             container.Options.DefaultScopedLifestyle = new AsyncScopedLifestyle();
+
+            // Add application services. For instance:
+            ContainerHelper.RegisterServices(container, InfraContainerHelper.RegisterServices);
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
@@ -118,10 +121,6 @@ namespace Stone.FluxoCaixaViaFila.WebApi
             // Add application presentation components:
             container.RegisterMvcControllers(app);
             container.RegisterMvcViewComponents(app);
-
-            // Add application services. For instance:
-
-            ContainerHelper.RegisterServices(container, InfraContainerHelper.RegisterServices);
 
             // Allow Simple Injector to resolve services from ASP.NET Core.
             container.AutoCrossWireAspNetComponents(app);

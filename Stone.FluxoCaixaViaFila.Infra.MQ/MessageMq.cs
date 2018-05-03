@@ -7,7 +7,7 @@ namespace Stone.FluxoCaixaViaFila.Infra.MQ
     {
         public abstract string QueueName { get; }
 
-        public void Put(object messageDeserialized)
+        public void Put<T>(T messageDeserialized)
         {
             var message = JsonConvert.SerializeObject(messageDeserialized);
             var bytes = System.Text.Encoding.UTF8.GetBytes(message);

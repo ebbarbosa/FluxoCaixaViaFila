@@ -6,6 +6,7 @@ namespace Stone.FluxoCaixaViaFila.Domain
     public class Registro
     {
         [JsonProperty("data")]
+        [JsonConverter(typeof(CustomDateConverter))]
         public DateTime Data { get; set; }
         
         [JsonProperty("valor")]
@@ -13,5 +14,3 @@ namespace Stone.FluxoCaixaViaFila.Domain
         public decimal Valor { get; set; }
     }
 }
-
-

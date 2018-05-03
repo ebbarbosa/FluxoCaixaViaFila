@@ -8,13 +8,8 @@ namespace Stone.FluxoCaixaViaFila.Domain
     {
         public override decimal ReadJson(JsonReader reader, Type objectType, decimal existingValue, bool hasExistingValue, JsonSerializer serializer)
         {
-            var valueString = reader.Value.ToString();
-
-            NumberFormatInfo MyNFI = new NumberFormatInfo();
-            MyNFI.NegativeSign = "-";
-            MyNFI.CurrencyDecimalSeparator = ",";
-            MyNFI.CurrencyGroupSeparator = ".";
-            
+            var valueString = reader.Value.ToString().Replace("%", "");
+            var MyNFI = NumberFormatInfo();
             decimal converted = 0m;
 
             return decimal.TryParse(valueString, NumberStyles.Currency, MyNFI, out converted) ?
@@ -23,7 +18,19 @@ namespace Stone.FluxoCaixaViaFila.Domain
 
         public override void WriteJson(JsonWriter writer, decimal value, JsonSerializer serializer)
         {
-            writer.WriteValue($"{value:#.0}%");
+            var MyNFI = NumberFormatInfo();
+
+            writer.WriteValue($"{value.ToString(MyNFI)}%");
+        }
+
+        private static NumberFormatInfo NumberFormatInfo()
+        {
+            NumberFormatInfo MyNFI = new NumberFormatInfo();
+            MyNFI.NegativeSign = "-";
+            MyNFI.CurrencyDecimalSeparator = ",";
+            MyNFI.CurrencyGroupSeparator = ".";
+            MyNFI.CurrencyDecimalDigits = 2;
+            return MyNFI;
         }
     }
 }

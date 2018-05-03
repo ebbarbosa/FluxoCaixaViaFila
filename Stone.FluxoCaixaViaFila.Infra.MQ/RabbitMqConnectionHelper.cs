@@ -18,7 +18,7 @@ namespace Stone.FluxoCaixaViaFila.Infra.MQ
                     var factory = new ConnectionFactory()
                     {
                         HostName = "192.168.99.100",
-                        Port = 32769,
+                        Port = 32777,
                         UserName = "guest",
                         Password = "guest",
                         RequestedHeartbeat = 60,
