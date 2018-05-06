@@ -16,9 +16,9 @@ namespace Stone.FluxoCaixaViaFila.Domain
 
             var fluxoCaixa = consolidarFluxoCaixa.ConsolidarMes();
             var fluxoCaixaDiario = fluxoCaixa.FirstOrDefault(f => f.Data.Date.Equals(lancamento.DataLancamento.Date));
-            var totalProvisaoDiaria = (lancamento.Valor + lancamento.Encargos) * -1 + fluxoCaixaDiario?.Total;
+            var totalDia = (lancamento.Valor + lancamento.Encargos) * -1 + fluxoCaixaDiario?.Total;
 
-            Assert.IsTrue(totalProvisaoDiaria > LIMITE_DIARIO, $"O limite diario de {LIMITE_DIARIO:###.###,00} foi atingido, nenhum lancamento de pagamento sera aceito.");
+            Assert.IsTrue(totalDia.GetValueOrDefault() >= LIMITE_DIARIO, $"O limite diario de {LIMITE_DIARIO:###.###,00} foi atingido, nenhum lancamento de pagamento sera aceito.");
         }
     }
 }

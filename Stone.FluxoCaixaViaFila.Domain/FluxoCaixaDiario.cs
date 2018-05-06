@@ -56,6 +56,7 @@ namespace Stone.FluxoCaixaViaFila.Domain
         }
 
         [JsonProperty("total")]
+        [JsonConverter(typeof(CurrencyConverter))]
         public decimal Total
         {
             get

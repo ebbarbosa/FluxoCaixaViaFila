@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.KeyVault.Models;
@@ -32,18 +33,10 @@ namespace Stone.FluxoCaixaViaFila.WebApi.Controllers
         // POST api/lancamento
         [HttpPost]
         [Produces("application/json", Type = typeof(Lancamento))]
-        public IActionResult Post([FromBody] Lancamento lancamento)
+        public Lancamento Post([FromBody] Lancamento lancamento)
         {
-            try
-            {
-                lancamentoRouter.RotearPraFila(lancamento);
-                return Json(lancamento);
-            }
-            catch (Exception e)
-            {
-                return StatusCode((int)HttpStatusCode.InternalServerError, e);
-            }
+            lancamentoRouter.RotearPraFila(lancamento);
+            return lancamento;
         }
-
     }
 }
