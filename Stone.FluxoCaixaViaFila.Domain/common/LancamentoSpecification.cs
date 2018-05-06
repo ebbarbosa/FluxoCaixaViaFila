@@ -5,7 +5,7 @@ namespace Stone.FluxoCaixaViaFila.Domain
 {
     public abstract class LancamentoSpecification : ILancamentoSpecification
     {
-        protected const decimal LIMITE_DIARIO = 20000m;
+        protected const decimal LIMITE_DIARIO = -20000m;
         protected IConsolidarFluxoCaixa consolidarFluxoCaixa;
         protected Lancamento lancamento;
 
@@ -17,7 +17,7 @@ namespace Stone.FluxoCaixaViaFila.Domain
 
         public virtual void Validate()
         {
-            Assert.IsTrue(lancamento.DataLancamento > DateTime.Today, "Lancamentos nao podem ser retroativos.");
+            Assert.IsTrue(lancamento.DataLancamento.Date > DateTime.Today, "Lancamentos nao podem ser retroativos.");
         }
     }
 }

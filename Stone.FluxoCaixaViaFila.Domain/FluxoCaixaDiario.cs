@@ -65,8 +65,8 @@ namespace Stone.FluxoCaixaViaFila.Domain
                 var sumEncargos = this.Encargos?.Sum(e => e.Valor);
 
                 return sumEntradas.GetValueOrDefault()
-                - sumSaidas.GetValueOrDefault()
-                - sumEncargos.GetValueOrDefault();
+                                  + (sumSaidas.GetValueOrDefault() * -1)
+                                  + (sumEncargos.GetValueOrDefault());
             }
         }
 

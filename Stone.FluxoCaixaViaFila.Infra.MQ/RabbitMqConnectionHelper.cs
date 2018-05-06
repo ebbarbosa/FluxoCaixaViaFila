@@ -17,14 +17,14 @@ namespace Stone.FluxoCaixaViaFila.Infra.MQ
                     // "guest"/"guest" by default, limited to localhost connections
                     var factory = new ConnectionFactory()
                     {
-                        HostName = "192.168.99.100",
-                        Port = 32777,
+                        HostName = "localhost",
+                        Port = 5672,
                         UserName = "guest",
                         Password = "guest",
                         RequestedHeartbeat = 60,
                         Ssl =
                         {
-                            ServerName = "192.168.99.100",
+                            ServerName = "localhost",
                             Enabled = false
                         }
                     };

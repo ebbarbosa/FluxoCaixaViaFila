@@ -16,7 +16,7 @@ namespace Stone.FluxoCaixaViaFila.Domain
 
         public FluxoCaixa ConsolidarMes()
         {
-            IEnumerable<FluxoCaixaDiario> diarios = _repository.GetDiarios();
+            var diarios = new List<FluxoCaixaDiario>(_repository.GetDiarios());
             var consolidado = new List<FluxoCaixaDiario>();
 
             var porData = diarios.GroupBy(d => d.Data).Select(g => g).ToList();
@@ -30,6 +30,7 @@ namespace Stone.FluxoCaixaViaFila.Domain
                 diario.Data = dataInicio.AddDays(i);
 
                 var diariosExistentes = porData.Where(f => f.Key == dataInicio.AddDays(i)).ToList();
+                decimal diarioAnteriorTotal = 0m;
 
                 if (diariosExistentes != null && diariosExistentes.Any())
                 {
@@ -42,20 +43,39 @@ namespace Stone.FluxoCaixaViaFila.Domain
                         diario.AddEncargos(diarioExistente.SelectMany(d => d.Encargos));
                     }
 
-                    var diarioAnteriorTotal = i > 0 ? consolidado.ElementAt(i - 1).Total : 0;
+                    diarioAnteriorTotal = i > 0 ? consolidado.ElementAt(i - 1).Total : 0;
                     diario.PosicaoDoDia = DiarioPosicaoDoDia(diario, diarioAnteriorTotal);
 
                 }
                 else
                 {
-                    var diarioAnteriorTotal = i > 0 ? consolidado.ElementAt(i - 1).Total : 0;
+                    diarioAnteriorTotal = i > 0 ? consolidado.ElementAt(i - 1).Total : 0;
                     diario.PosicaoDoDia = DiarioPosicaoDoDia(diario, diarioAnteriorTotal);
                 }
+
+                AdicionarJuros(diario);
 
                 consolidado.Add(diario);
             }
 
             return new FluxoCaixa(consolidado);
+        }
+
+        private void AdicionarJuros(FluxoCaixaDiario fluxoCaixaDiario)
+        {
+            if (fluxoCaixaDiario.Total < 0m)
+            {
+                fluxoCaixaDiario.Encargos.Add(new Registro
+                {
+                    Data = fluxoCaixaDiario.Data.Date,
+                    Valor = CalculaJuros(fluxoCaixaDiario.Total)
+                });
+            }
+        }
+
+        private decimal CalculaJuros(decimal total)
+        {
+            return Math.Round(total * (0.83m / 100m), 2);
         }
 
         private static decimal DiarioPosicaoDoDia(FluxoCaixaDiario diario, decimal diarioAnteriorTotal)
